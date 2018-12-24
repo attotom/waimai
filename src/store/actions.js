@@ -11,7 +11,8 @@ import {
 import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
-  RECEIVE_SHOPS
+  RECEIVE_SHOPS,
+  RECEIVE_USER
 } from './mutation-types'
 
 export default {
@@ -29,13 +30,15 @@ export default {
   },
 
   // 异步获食品分类列表
-  async getCategorys({commit}) {
+  async getCategorys({commit}, callback) {
     // 1. 发异步ajax请求
     const result = await reqCategorys()
     // 2. 有了结果后, 提交mutation
     if (result.code === 0) {
       const categorys = result.data
       commit(RECEIVE_CATEGORYS, {categorys})
+      // 在提交mutation更新状态之后调用callback
+      typeof callback==='function' && callback()
     }
   },
 
@@ -50,4 +53,9 @@ export default {
       commit(RECEIVE_SHOPS, {shops})
     }
   },
+
+  // 同步保存user信息
+  saveUser ({commit}, user) {
+    commit(RECEIVE_USER, {user})
+  }
 }
