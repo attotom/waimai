@@ -1,4 +1,4 @@
-<template' >
+<template>
   <section class="profile">
     <nav-header title="我的"/>
     <section class="profile-number" @click="$router.push(user._id ? '/userinfo' : '/login')">
@@ -107,7 +107,9 @@
 
   export default {
     computed: {
-      ...mapState(['user'])
+      ...mapState({
+        user: state => state.user.user
+      })
     },
 
     methods: {
